@@ -1,0 +1,29 @@
+GET  http://localhost:3000/notifications
+content-type: application/json
+
+
+###POST   http://localhost:3000/notifications
+###content-type: application/json
+
+###{
+###    "id_persona": 6,
+###    "tipo": "promocion",
+###    "medio": "correo",
+###    "titulo": "alitas BBQ 50% descuento",
+###    "descripcion" : "llevate solo por hoy alitas BBQ (combo familiar) en BBQBrothers piso 3, disponible con todos los medios de pago."
+###}
+
+
+###PUT    http://localhost:3000/notifications/1
+###content-type: application/json
+
+###{
+###    "id_persona": 615,
+######    "tipo": "promocion",
+ ###   "medio": "correo",
+######    "titulo": "alitas BBQ 1000% descuento",
+ ###   "descripcion" : "llevate solo por hoy alitas BBQ (combo familiar) en BBQBrothers piso 3, disponible con todos los medios de pago."
+###}
+
+DELETE http://localhost:3000/notifications/2
+Content-Type: application/json

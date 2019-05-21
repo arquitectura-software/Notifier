@@ -1,0 +1,126 @@
+#Test with: postman
+
+postman: '2.0'
+info: software for prove APIs
+  version: 1.0.0
+  title: Microservice for Notifications
+  description: NodeJS + MySQL
+  license: ISC
+    name: Software Architecture 2019-I
+host: localhost:3000
+basePath: /models/notification.js
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /notifications:
+    post:
+      summary: Creates a new Notification
+      operationId: createNotification
+      parameters:
+        - notificationData: Object
+          description: Notification Object
+          schema:
+            $ref: '../routes/notificationRoutes.js'
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '../routes/notificationRoutes.js'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '../routes/notificationRoutes.js'
+    get:
+      summary: Returns all courses
+      operationId: getNotifications
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '../routes/notificationRoutes.js'
+        '406':
+          description: Not Acceptable (Invalid Params)
+          schema:
+            $ref: '../routes/notificationRoutes.js'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '../routes/notificationRoutes.js'
+
+ /notifications/{idNotif}:
+    put:
+      summary: Updates a notification with the given code
+      operationId: updateNotification
+      parameters:
+          notificationData: Object
+          description: Notification Object
+          schema:
+            $ref: '../routes/notificationRoutes.js'
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '406':
+            description: Not Acceptable (Invalid Params)
+            schema:
+              $ref: '../routes/notificationRoutes.js'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '../routes/notificationRoutes.js'
+
+    delete:
+      summary: Deletes a Notification with the given id
+      operationId: deleteNotification
+      parameters:
+          idNotif: id of the notification
+          description: The notification to be deleted
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Ok
+        '404':
+          description: Not Found
+          schema:
+            $ref: '../routes/notificationRoutes.js'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '../routes/notificationRoutes.js'
+
+definitions:
+
+  # Notification
+  Notification:
+    type: object
+    properties:
+      idNotif:
+        type: integer
+      idPersona:
+        type: integer
+      tipo:
+        type: string
+      medio:
+        type: string
+      titulo:
+        type: string
+      descripcion:
+        type: string
+      fecha_creacion:
+        type: date
+      fecha_modificacion:
+        type: date
+
+
+
+

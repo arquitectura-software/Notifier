@@ -1,77 +1,76 @@
-const Notification = require("../models/notification");
-module.exports = function(app) {
-  app.get("/notifications", (req, res) => {
-    Notification.getNotifications((err, data) => {
-      res.status(200).json(data);
-    });
-  });
+//nueva version:
 
-  app.post("/notifications", (req, res) => {
-    const notificationData = {
-      id_notif: null,
-      id_persona: req.body.id_persona,
-      tipo: req.body.tipo,
-      medio: req.body.medio,
-      titulo: req.body.titulo,
-      descripcion: req.body.descripcion,
-      fecha_de_creacion: null,
-      fecha_de_modificacion: null
-    };
-    console.log(notificationData)
-    Notification.createNotification(notificationData, (err, data) => {
-        console.log(notificationData.id_persona)
-        if (data && data.insertId) {
-        console.log(data);
-        res.json({
-          success: true,
-          message: "Notificacion creada",
-          data: data
-        });
-      } else {
-        res.status(500).json({
-          success: false,
-          msg: "Error"
-        });
-      }
-    });
-  });
+import { Router } from "express";
+const router = Router();
 
-  app.put("/notifications/:id_notif", (req, res) => {
-    const notificationData = {
-      id_notif: parseInt(req.params.id_notif,10),
-      id_persona: req.body.id_persona,
-      tipo: req.body.tipo,
-      medio: req.body.medio,
-      titulo: req.body.titulo,
-      descripcion: req.body.descripcion,
-      fecha_de_creacion: null,
-      fecha_de_modificacion: null
-    };
-    console.log(notificationData)
-    Notification.updateNotification(notificationData, (err, data) => {
-      if (data && data.msg) {
-        res.json(data);
-      } else {
-        res.json({
-          success: false,
-          msg: "Error"
-        });
-      }
-    });
-  });
+//Database conecction
 
-  app.delete("/notifications/:id_notif", (req, res) => {
-    Notification.deleteNotification(req.params.id_notif, (err, data) => {
-      if ((data && data.msg === "Deleted") || data.msg === "Not exist") {
-        res.json({
-          success: true,
-          data
-        });
-      } else {
-        res.status(500).json({
-          msg: "Error"
-        });
-      }
-    });
+import { connect } from "../database";
+import { ObjectId } from "mongodb";
+
+router.get("/", async (req, res) => {
+  const db = await connect();
+  const result = await db
+    .collection("notifications")
+    .find({})
+    .toArray();
+  res.json(result);
+});
+
+router.post("/", async (req, res) => {
+  const db = await connect();
+  const notificationData = {
+    id_persona: req.body.id_persona,
+    tipo: req.body.tipo,
+    medio: req.body.medio,
+    titulo: req.body.titulo,
+    descripcion: req.body.descripcion,
+    fecha_de_creacion: new Date(),
+    fecha_de_modificacion: null
+  };
+  const result = await db
+    .collection("notifications")
+    .insertOne(notificationData);
+  res.json(result.ops[0]);
+});
+
+router.get("/:id", async (req, res) => {
+  const { id } = req.params;
+  const db = await connect();
+  const result = await db
+    .collection("notifications")
+    .findOne({ _id: ObjectId(id) });
+  res.json(result);
+});
+
+router.delete("/:id", async (req, res) => {
+  const { id } = req.params;
+  const db = await connect();
+  const result = await db
+    .collection("notifications")
+    .deleteOne({ _id: ObjectId(id) });
+  res.json({
+    message: `notification ${id} Deleted`,
+    result
   });
-};
+});
+
+router.put("/:id", async (req, res) => {
+  const { id } = req.params;
+  const notificationData = {
+    id_persona: req.body.id_persona,
+    tipo: req.body.tipo,
+    medio: req.body.medio,
+    titulo: req.body.titulo,
+    descripcion: req.body.descripcion,
+    fecha_de_modificacion: new Date()
+  };
+  const db = await connect();
+  await db
+    .collection("notifications")
+    .updateOne({ _id: ObjectId(id) }, { $set: notificationData });
+  res.json({
+    message: `task ${id} updated`
+  });
+});
+export default router;

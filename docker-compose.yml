@@ -1,0 +1,19 @@
+version: '2.1'
+
+services:
+  notifier:
+    container_name: notifier
+    image: notifier
+    restart: always
+    build: .
+    environment:
+      NODE_ENV: production
+    ports:
+      - 3000:3000
+    links:
+      - mongo
+  mongo:
+    container_name: notifierdb
+    image: mongo
+    ports:
+      - "27017:27017"

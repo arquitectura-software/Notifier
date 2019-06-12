@@ -11,9 +11,9 @@ services:
     ports:
       - 3004:3000
     links:
-      - notifications-db
-  notifications-db:
-    container_name: notifications-db
+      - mongo
+  mongo:
+    container_name: notifierdb
     image: mongo
     ports:
       - "27017:27017"

@@ -4,12 +4,13 @@ const app = express();
 // Routes
 
 import notificationRoutes from "./routes/notificationRoutes";
-
+import seed  from "./seed"
 //settings
 
 app.set("port", process.env.PORT || 3000);
 
 //Middlewares
+seed()
 app.use(json());
 
 //Routes

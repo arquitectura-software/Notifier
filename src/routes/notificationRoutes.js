@@ -31,7 +31,13 @@ router.post("/", async (req, res) => {
   const result = await db
     .collection("notifications")
     .insertOne(notificationData);
-  res.json(result.ops[0]);
+  res.json({
+    id_persona: notificationData.id_persona,
+    tipo: notificationData.tipo,
+    medio: notificationData.medio,
+    titulo: notificationData.titulo,
+    descripcion: notificationData.descripcion
+  });
 });
 
 router.get("/:id", async (req, res) => {
@@ -50,8 +56,7 @@ router.delete("/:id", async (req, res) => {
     .collection("notifications")
     .deleteOne({ _id: ObjectId(id) });
   res.json({
-    message: `notification ${id} Deleted`,
-    result
+    id: id
   });
 });
 
@@ -70,7 +75,11 @@ router.put("/:id", async (req, res) => {
     .collection("notifications")
     .updateOne({ _id: ObjectId(id) }, { $set: notificationData });
   res.json({
-    message: `task ${id} updated`
+    id_persona: notificationData.id_persona,
+    tipo: notificationData.tipo,
+    medio: notificationData.medio,
+    titulo: notificationData.titulo,
+    descripcion: notificationData.descripcion
   });
 });
 export default router;

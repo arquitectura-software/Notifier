@@ -7,7 +7,7 @@ import notificationRoutes from "./routes/notificationRoutes";
 import seed  from "./seed"
 //settings
 
-app.set("port", process.env.PORT || 3000);
+app.set("port", process.env.PORT || 3002);
 
 //Middlewares
 seed()

@@ -1,18 +1,17 @@
 version: '2.1'
 
 services:
-
   notifications-ms:
     restart: always
     build: .
     environment:
       NODE_ENV: production
     ports:
-      - 3002:3000
-    depends_on:
+      - 3002:3002
+    links:
       - notifications-db
 
   notifications-db:
-    build: .
+    image: mongo
     ports:
       - "27017:27017"

@@ -18,7 +18,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 var app = (0, _express["default"])(); // Routes
 
 //settings
-app.set("port", process.env.PORT || 3000); //Middlewares
+app.set("port", process.env.PORT || 3002); //Middlewares
 
 (0, _seed["default"])();
 app.use((0, _express.json)()); //Routes

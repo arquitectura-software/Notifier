@@ -82,7 +82,13 @@ function () {
 
           case 6:
             result = _context2.sent;
-            res.json(result.ops[0]);
+            res.json({
+              id_persona: notificationData.id_persona,
+              tipo: notificationData.tipo,
+              medio: notificationData.medio,
+              titulo: notificationData.titulo,
+              descripcion: notificationData.descripcion
+            });
 
           case 8:
           case "end":
@@ -159,8 +165,7 @@ function () {
           case 6:
             result = _context4.sent;
             res.json({
-              message: "notification ".concat(id, " Deleted"),
-              result: result
+              id: id
             });
 
           case 8:
@@ -209,7 +214,11 @@ function () {
 
           case 7:
             res.json({
-              message: "task ".concat(id, " updated")
+              id_persona: notificationData.id_persona,
+              tipo: notificationData.tipo,
+              medio: notificationData.medio,
+              titulo: notificationData.titulo,
+              descripcion: notificationData.descripcion
             });
 
           case 8:

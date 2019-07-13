@@ -28,7 +28,7 @@ function _connect() {
           case 0:
             _context.prev = 0;
             _context.next = 3;
-            return _mongodb["default"].connect("mongodb://localhost:27017", {
+            return _mongodb["default"].connect("mongodb://notifications-db:27017", {
               useNewUrlParser: true
             });
 
